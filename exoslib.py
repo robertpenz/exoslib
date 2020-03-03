@@ -222,14 +222,17 @@ def port_is_valid(port):
 
 def yes_no_input(request, default=False):
     FMT_ERROR = 'ERROR: {0}'
-    input = raw_input(request)
-    if input in ('y','Y'):
+    # Fix Python 2.x. - Python 3 has no raw_input anymore
+    try: input = raw_input
+    except NameError: pass
+    aInput = input(request)
+    if aInput in ('y','Y'):
         return True
-    elif input in ('n','N'):
+    elif aInput in ('n','N'):
         return False
-    elif input in ('') and default is not None:
+    elif aInput in ('') and default is not None:
         return default
-    print FMT_ERROR.format('Invalid input.  Please enter \'y\' or \'n\'')
+    print(FMT_ERROR.format('Invalid input.  Please enter \'y\' or \'n\''))
     yes_no_input(request, default)
 
 
